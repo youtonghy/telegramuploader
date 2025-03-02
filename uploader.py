@@ -2,9 +2,10 @@ import os
 import telebot
 from telebot.apihelper import ApiTelegramException
 import time
+import shutil
 
 # 配置信息
-BOT_TOKEN = '' # Bot Token
+BOT_TOKEN = '' # 机器人Token
 CHANNEL_ID = '@'  # 频道ID
 DISCUSSION_GROUP_ID = '@'  # 讨论群组ID
 
@@ -16,7 +17,6 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 # 用于存储最新消息ID的变量
 new_message_id = None
-
 
 # 获取讨论群组中最新消息的ID
 def get_latest_message_id():
@@ -102,6 +102,7 @@ def process_folders(root_folder):
 
 
             time.sleep(40)
+
         except ApiTelegramException as e:
             print(f"发送图片时出错: {e}")
         except Exception as e:
@@ -111,7 +112,7 @@ def process_folders(root_folder):
         try:
             delete_path = root_folder + "/" + folder_name
             delete_path = delete_path.replace("\\", "/")
-            os.rmdir(delete_path)
+            shutil.rmtree(delete_path)
             print(f"已删除文件夹: {delete_path}")
         except Exception as e:
             print(f"删除文件夹 '{delete_path}' 时出错: {e}")
